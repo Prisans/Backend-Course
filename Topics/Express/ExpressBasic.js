@@ -1,18 +1,16 @@
-const express = require("express")
-const PORT = 3000
+const express  = require('express')
 
-const app  = express()
 
-console.log("app is -",app)
+const app = express()
 
-app.get("/" , (req,res)=>{
-    res.send("home page")
+app.get('/',(req,res)=>{
+    res.send("hello from home page!" )
 })
 
-app.get("/email" , (req,res)=>{
-    res.send(JSON.stringify({email :" testemail@gmail.com"}))
+app.get("/about" , (req,res)=>{
+    res.send("hello from about page" + "name is" + req.query.name + "age is" + req.query.age)
 })
 
-app.listen(PORT,()=>{
-    console.log("server started")
+app.listen(3000,()=>{
+    console.log("server started!!!")
 })
