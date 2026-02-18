@@ -1,8 +1,28 @@
 const express = require("express")
 const fs = require("fs")
+const mongoose =  require("mongoose")
 const users = require("./MOCK_DATA.json")
+const userRouter = require("./routes/userRoutes")
 
+//<------------------mongodb connection ------------------------------------------------>
+
+
+// flow  :  connection -> schema -> model -> crud operation using model
+
+// creating schema of the database 
+
+// connection with backend 
 const app = express()
+
+mongoose.connect("mongodb://127.0.0.1:27017/mydata")
+.then(()=>console.log("mongodb connected"))
+.catch(err=>console.log("not connected" ,err))
+
+app.use("/users" , userRouter)
+
+
+// using this model to insert or create data in our database
+
 
 // middlewares ------------------------------->
 
@@ -20,86 +40,7 @@ app.use((req,res,next)=>{
 })
 
 // routes and http methods -------------------------------------------->
-app.get("/",(req,res)=>{
-    res.send("hello prisans")
-})
 
-// console.log(users)
-
-// rest api -------------------------->
-
-app.get("/users" , (req,res)=>{
-    const html = `
-    <ul>
-    ${users.map(item=>`<li>${item.first_name}</li>`).join("")}
-    </ul>
-    `
-    res.send(html)
-})
-
-app.get("/api/users" , (req,res)=>{
-    return res.json(users)
-})
-
-// dynamic routes ------------------>
-
-app.get("/api/users/:id" , (req,res)=>{
-    const userId = Number(req.params.id) 
-
-    // console.log("id is" , req.params.id)
-
-    const newUser = users.find(item=>item.id ===userId)
-
-    // res.send(newUser)
-
-    return res.json(newUser)
-})
-
-// post method--------->
-
-app.post("/api/users" , (req,res)=>{
-    const body = req.body
-    users.push({...body, id : users.length +1})
-    fs.writeFile('./MOCK_DATA.json' , JSON.stringify(users) , (err,data)=>{
-        return res.json({status : "success" , id : users.length +1})
-    })
-    console.log("body is - ",body)
-    return res.json({status : "pending"})
-})
-
-// delete method ---------------->
-
-app.delete("/users/:id" , (req,res)=>{
-    const deletedId = Number(req.params.id)
-    const deletedData = users.filter((item)=>{
-        return item.id !=deletedId
-    })
-    
-    console.log(deletedData)
-    fs.writeFile("./MOCK_DATA.json" , JSON.stringify(deletedData) , (err,data)=>{
-        return res.json({status : "deleted"})
-    })
-})
-
-// patch ( update method) ----------------->
-
-app.patch("/users/:id" , (req,res)=>{
-    const updatedId = Number(req.params.id)
-    const updatedData = req.body
-
-    let updatedUser = users.map((item)=>{
-        return (
-            item.id === updatedId ? {...item , ...updatedData} : item
-        )
-    })
-
-    fs.writeFile("./MOCK_DATA.json" , JSON.stringify(updatedUser) , (err,data)=>{
-        return res.json({status : "updated"})
-    })
-
-    // console.log(updatedUser)
-
-})
 
 
 // running server ---------------->

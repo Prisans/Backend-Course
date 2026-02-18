@@ -3,4 +3,11 @@
  1770993543711 : ::1 : /users : PATCH 
  1770993560010 : ::1 : /api/users : POST 
  1770993579803 : ::1 : /api/users : GET 
- 1770993588794 : ::1 : /api/users/1 : GET
+ 1770993588794 : ::1 : /api/users/1 : GET 
+ 1771073170914 : ::1 : /api/users : POST 
+ 1771073503905 : ::1 : /api/users : POST 
+ 1771073522788 : ::1 : /api/users : POST 
+ 1771074182375 : ::1 : /users : GET 
+ 1771074182521 : ::1 : /favicon.ico : GET 
+ 1771074218687 : ::1 : /api/users : POST 
+ 1771074224126 : ::1 : /users : GET
